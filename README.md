@@ -4,7 +4,7 @@
 
 This repository is part of the [**Flogo Demo by Square IT Services**](https://github.com/square-it/flogo-demo).
 
-* [This Flogo application](#description) manages the screen display part.
+* [This Flogo application](#description) manages the interactions with end-users (which smiley to display?, the list of smileys, ...)
 * [Another Flogo application](https://github.com/square-it/flogo-demo-iot) is used to manage the screen display part.
 
 Currently, these two applications communicates very simply through a REST service.
