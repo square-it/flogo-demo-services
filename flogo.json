@@ -1,0 +1,147 @@
+{
+  "name": "flogo-demo-services",
+  "type": "flogo:app",
+  "version": "0.0.1",
+  "appModel": "1.0.0",
+  "triggers": [
+    {
+      "id": "smiley",
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/trigger/rest",
+      "name": "smiley",
+      "description": "Triggers the display of the selected smiley on the Raspberry Pi screen.",
+      "settings": {
+        "port": 4445
+      },
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+            "data": {
+              "flowURI": "res://flow:flogo_smiley_demo"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "smileyId",
+                  "type": "assign",
+                  "value": "$.pathParams.smileyId"
+                }
+              ],
+              "output": [
+                {
+                  "mapTo": "code",
+                  "type": "assign",
+                  "value": "$.returnCode"
+                }
+              ]
+            }
+          },
+          "settings": {
+            "method": "GET",
+            "path": "/v1/smiley/:smileyId"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "flow:flogo_smiley_demo",
+      "data": {
+        "name": "Flogo Smiley Demo",
+        "description": "This is a simple API to display smiley pictures on a screen of a Raspberry PI running a Flogo IoT application",
+        "metadata": {
+          "input": [
+            {
+              "name": "smileyId",
+              "type": "string"
+            },
+            {
+              "name": "smileyFile",
+              "type": "string"
+            }
+          ],
+          "output": [
+            {
+              "name": "returnCode",
+              "type": "integer"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "name": "Log Smiley ID",
+            "description": "Log the received smiley ID",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/log",
+              "input": {
+                "flowInfo": "false",
+                "addToFlow": "false"
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "expression",
+                    "value": "string.concat(\"Receive request with smiley id: \", $flow.smileyId)",
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "rest_8",
+            "name": "Invoke REST Service",
+            "description": "Simple REST Activity",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/rest",
+              "input": {
+                "method": "GET",
+                "uri": "http://192.168.241.120:4445/v1/smiley/:smileyId"
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "smileyId": "{{$flow.smileyId}}"
+                    },
+                    "mapTo": "pathParams"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "actreply_7",
+            "name": "Reply To Trigger",
+            "description": "Send HTTP 200 status code",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreply",
+              "input": {
+                "mappings": [
+                  {
+                    "mapTo": "returnCode",
+                    "type": "literal",
+                    "value": 200
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "log_2",
+            "to": "rest_8"
+          },
+          {
+            "from": "rest_8",
+            "to": "actreply_7"
+          }
+        ]
+      }
+    }
+  ]
+}
