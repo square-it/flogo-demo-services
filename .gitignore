@@ -16,5 +16,5 @@
 bin/
 pkg/
 
-src/flogo-demo-iot/embeddedapp.go
-src/flogo-demo-iot/vendor
+src/flogo-demo-services/embeddedapp.go
+src/flogo-demo-services/vendor
