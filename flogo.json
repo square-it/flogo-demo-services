@@ -91,17 +91,42 @@
             }
           },
           {
+            "id": "log_3",
+            "name": "Log Smiley Request",
+            "description": "Log the request to send to the Raspberry Pi",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/log",
+              "input": {
+                "flowInfo": "false",
+                "addToFlow": "false"
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "expression",
+                    "value": "string.concat(\"Forwarding request to: http://\", $env.RPI_HOST, \":\", $env.RPI_PORT, \"/v1/smiley/\", $flow.smileyId)",
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
             "id": "rest_8",
             "name": "Invoke REST Service",
             "description": "Simple REST Activity",
             "activity": {
               "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/rest",
               "input": {
-                "method": "GET",
-                "uri": "http://192.168.241.120:4445/v1/smiley/:smileyId"
+                "method": "GET"
               },
               "mappings": {
                 "input": [
+                  {
+                    "type": "expression",
+                    "value": "string.concat(\"http://\", $env.RPI_HOST, \":\", $env.RPI_PORT, \"/v1/smiley/:smileyId\")",
+                    "mapTo": "uri"
+                  },
                   {
                     "type": "object",
                     "value": {
@@ -134,6 +159,10 @@
         "links": [
           {
             "from": "log_2",
+            "to": "log_3"
+          },
+          {
+            "from": "log_3",
             "to": "rest_8"
           },
           {
