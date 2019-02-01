@@ -25,7 +25,7 @@ The application can be run on any system where Go program [can be compiled to](h
 
 1. run a Flogo Web UI
 ```
-docker run --name flogo -it -d -p 3303:3303 -e FLOGO_NO_ENGINE_RECREATION=false flogo/flogo-docker:v0.5.6 eula-accept
+docker run --name flogo -it -d -p 3303:3303 -e FLOGO_NO_ENGINE_RECREATION=false flogo/flogo-docker:v0.5.7 eula-accept
 ```
 
 2. install custom-made activities contributions
@@ -39,4 +39,6 @@ docker exec -it flogo sh -c 'cd /tmp/flogo-web/build/server/local/engines/flogo-
 docker restart flogo
 ```
 
-The Flogo Web UI is available at ```http://localhost:3303```
+The Flogo Web UI is available at ```http://localhost:3303```.
+
+Import the application using the [provided *flogo.json*](./flogo.json).
