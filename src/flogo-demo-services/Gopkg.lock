@@ -29,6 +29,7 @@
     "activity/rest",
     "model/simple",
     "model/simple/behaviors",
+    "trigger/mqtt",
     "trigger/rest",
     "trigger/rest/cors",
   ]
@@ -83,7 +84,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:2fcd447fb480db9f98ecc924be3526ab210ff4e08e03bef70ae3586dd00d9e54"
+  digest = "1:5e006db52c9682bda1318c177aa915a22382aa20fe210d927562245c312f9012"
   name = "github.com/apache/thrift"
   packages = ["lib/go/thrift"]
   pruneopts = "T"
@@ -136,6 +137,17 @@
   pruneopts = "T"
   revision = "44cc805cf13205b55f69e14bcb69867d1ae92f98"
   version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:523939a05ebb80f3b4844e20e6e4e473e7c83a8371bf86c5b4be9ee6934c6e51"
+  name = "github.com/eclipse/paho.mqtt.golang"
+  packages = [
+    ".",
+    "packets",
+  ]
+  pruneopts = "T"
+  revision = "cb7eb9363b4469c601b1a714447653b720e4e43a"
 
 [[projects]]
   digest = "1:31a18dae27a29aa074515e43a443abfd2ba6deb6d69309d8d7ce789c45f34659"
@@ -337,7 +349,12 @@
   branch = "master"
   digest = "1:f66cd895439d91ce840f7f9ab98f1c9d96d4798e667b64dd29d3953870eeec1a"
   name = "golang.org/x/net"
-  packages = ["context"]
+  packages = [
+    "context",
+    "internal/socks",
+    "proxy",
+    "websocket",
+  ]
   pruneopts = "T"
   revision = "03003ca0c849e57b6ea29a4bab8d3cb6e4d568fe"
 
@@ -360,6 +377,7 @@
     "github.com/TIBCOSoftware/flogo-contrib/activity/actreply",
     "github.com/TIBCOSoftware/flogo-contrib/activity/log",
     "github.com/TIBCOSoftware/flogo-contrib/activity/rest",
+    "github.com/TIBCOSoftware/flogo-contrib/trigger/mqtt",
     "github.com/TIBCOSoftware/flogo-contrib/trigger/rest",
     "github.com/TIBCOSoftware/flogo-lib/app",
     "github.com/TIBCOSoftware/flogo-lib/engine",

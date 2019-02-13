@@ -5,10 +5,10 @@
   "appModel": "1.0.0",
   "triggers": [
     {
-      "id": "smiley",
+      "id": "smiley_from_rest",
       "ref": "github.com/TIBCOSoftware/flogo-contrib/trigger/rest",
-      "name": "smiley",
-      "description": "Triggers the display of the selected smiley on the Raspberry Pi screen.",
+      "name": "Smiley from REST",
+      "description": "Triggers the display of the selected smiley on the Raspberry Pi screen by a REST request.",
       "settings": {
         "port": 4445
       },
@@ -39,6 +39,38 @@
           "settings": {
             "method": "GET",
             "path": "/v1/smiley/:smileyId"
+          }
+        }
+      ]
+    },
+    {
+      "id": "smiley_from_mqtt",
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/trigger/mqtt",
+      "name": "Smiley from MQTT",
+      "description": "Triggers the display of the selected smiley on the Raspberry Pi screen by a MQTT message.",
+      "settings": {
+        "broker": "$env[MQTT_BROKER]",
+        "id": "$env[MQTT_ID]"
+      },
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+            "data": {
+              "flowURI": "res://flow:flogo_smiley_demo"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "smileyId",
+                  "type": "assign",
+                  "value": "$.message"
+                }
+              ]
+	    }
+	  },
+          "settings": {
+            "topic": "demo"
           }
         }
       ]
